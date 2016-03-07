@@ -101,7 +101,7 @@ class Redirect_IndexController extends Omeka_Controller_AbstractActionController
             $this->_redirect($redirect . '&error=source');
             return;
         }
-
+/*
         // see if the URL being redirected has a 200 HTTP response
         // @todo perhaps Zend has a way to query routes? I'm sure it does but couldn't find after a quick google search
         // @todo allow override by admin
@@ -133,7 +133,7 @@ class Redirect_IndexController extends Omeka_Controller_AbstractActionController
             $this->_redirect($redirect . '&error=redirect');
             return;
         }
-
+*/
         // if the user is deleting the redirect, just delete it from the database
         if (!empty($params['delete'])) {
             $db->query("DELETE FROM `{$db->prefix}redirect` WHERE id = ?", $id);
@@ -149,6 +149,14 @@ class Redirect_IndexController extends Omeka_Controller_AbstractActionController
                 'id',
                 'module',
             );
+            foreach ($params as $key => $value) {
+                if (in_array($key, $keys)) {
+                    unset($params[$key]);
+                }
+                else {
+                    $params[$key] = trim($value);
+                }
+            }
             foreach ($keys as $key) {
                 unset($params[$key]);
             }
@@ -158,7 +166,7 @@ class Redirect_IndexController extends Omeka_Controller_AbstractActionController
                 $insert_sql = "INSERT INTO `{$db->prefix}redirect`(`"
                     . implode('`, `', array_keys($params))
                     . "`) VALUES (";
-                for ($i = 0; $i < count($params); ++$i) {
+                foreach ($params as $key => $value) {
                     $insert_sql .= '?,';
                 }
 

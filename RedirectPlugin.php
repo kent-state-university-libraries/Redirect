@@ -55,11 +55,16 @@ class RedirectPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInitialize() {
         $db = get_db();
+        $source = trim($_SERVER['REQUEST_URI'], '/');
+        $d_args = array(
+          $source,
+          trim(str_replace(trim(public_url(''), '/'), '', $source), '/'),
+        );
         $redirect = $db->query("SELECT id, redirect FROM `{$db->prefix}redirect`
-            WHERE source = ? AND enabled = 1", trim($_SERVER['REQUEST_URI'], '/'))->fetchObject();
+            WHERE (source = ? OR source = ?) AND enabled = 1", $d_args)->fetchObject();
         if ($redirect) {
             $db->query("UPDATE `{$db->prefix}redirect` SET count = count + 1, access = ? WHERE id = ?", array(time(), $redirect->id));
-            header('Location: ' . $redirect->redirect, TRUE, 301);
+            header('Location: /' . $redirect->redirect, TRUE, 301);
             exit;
         }
 
