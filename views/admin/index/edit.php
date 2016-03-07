@@ -1,7 +1,7 @@
 <?php
 
 echo head($head);
-echo flash();
+echo str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), flash());
 ?>
 
 <section id="redirect-form" class="seven columns alpha">
