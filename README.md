@@ -18,7 +18,7 @@ the plugin.
 
 Click the "Redirect" link found in your admin menu to add redirects.
 
-An "Add Redirect" link will be found on item/collection/simple pages
+An "Add Redirect" link will be found on item/collection/simple public pages if you're logged in
 
 ------
 
