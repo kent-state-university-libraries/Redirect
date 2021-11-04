@@ -121,11 +121,12 @@ class RedirectPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         if (is_allowed($aclRecord, 'edit')) {
+           $components = explode('?', trim($_SERVER['REQUEST_URI'], '/'));
             $editLinks = array(
                 'redirect' => array(
                     'label'=>'Add Redirect',
                     'uri' => admin_url('redirect/index/add', array(
-                        'redirect' => array_pop(explode('?', trim($_SERVER['REQUEST_URI'], '/')))
+                        'redirect' => array_pop($components)
                     )),
                     'class' => 'redirect',
                     'target' => '_blank',
